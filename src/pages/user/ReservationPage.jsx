@@ -88,13 +88,24 @@ export default function ReservationPage() {
               </p>
 
               {res.status !== "cancelled" && (
+                <div className="flex flex-row gap-2">
+
                 <button
                   onClick={() => handleCancel(res.id)}
                   disabled={cancelingId === res.id}
-                  className="mt-2 w-full btn btn-error"
-                >
+                  className="mt-2 w-1/2 btn btn-error"
+                  >
                   {cancelingId === res.id ? "Cancelling..." : "Cancel"}
                 </button>
+                <button
+                  onClick={() => handleCancel(res.id)}
+                  disabled={cancelingId === res.id}
+                  className="mt-2 w-1/2  btn btn-success"
+                  >
+                  {cancelingId === res.id ? "Completing..." : "Complete"}
+                </button>
+                
+                  </div>
               )}
             </div>
           ))}

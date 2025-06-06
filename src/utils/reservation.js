@@ -10,6 +10,11 @@ export const cancelReservation = async(id) => {
     return response.data
 }
 
+export const completeReservation = async (id) => { 
+    const response = await api.put(`/${id}/complete`);  
+    return response.data
+}
+
 export const createReservation = async ({slot_id, start_time, end_time}) => { 
     const response = await api.post('/reservations/', {slot_id, start_time, end_time});  
     return response.data

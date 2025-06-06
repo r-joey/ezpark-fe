@@ -1,13 +1,35 @@
 import { useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
 
-export default function AdminReservationTable({ reservations, onCancel }) {
+export default function AdminReservationTable({ reservations, onComplete, onCancel }) {
     const [cancelTarget, setCancelTarget] = useState(null);
+    const [completeTarget, setCompleteTarget] = useState(null);
     const [loadingId, setLoadingId] = useState(null);
 
     function handleCancelClick(res) {
         setCancelTarget(res);
         document.getElementById("cancel_reservation_modal").showModal();
+    }
+
+    function handleCompleteClick(res) {
+        setCompleteTarget(res);
+        document.getElementById("complete_reservation_modal").showModal();
+    }
+
+    async function confirmCompletion() {
+        if (completeTarget) {
+            setLoadingId(completeTarget.id);
+            try {
+                await onCancel(completeTarget);
+                toast.success(`Reservation #${completeTarget.id} completed.`);
+            } catch (err) {
+                toast.error("Failed to complete reservation.");
+            } finally {
+                setLoadingId(null);
+                setCancelTarget(null);
+                document.getElementById("complete_reservation_modal").close();
+            }
+        }
     }
 
     async function confirmCancelation() {
@@ -27,10 +49,8 @@ export default function AdminReservationTable({ reservations, onCancel }) {
     }
 
     function getStatusBadge(status) {
-        const badgeMap = {
-            in_progress: "badge badge-info",
+        const badgeMap = { 
             completed: "badge badge-success",
-            no_show: "badge badge-warning",
             cancelled: "badge badge-error",
         };
 
@@ -76,6 +96,17 @@ export default function AdminReservationTable({ reservations, onCancel }) {
                                         "Cancel"
                                     )}
                                 </button>
+                                <button
+                                    className="btn btn-sm btn-success"
+                                    onClick={() => handleCompleteClick(res)}
+                                    disabled={loadingId === res.id}
+                                >
+                                    {loadingId === res.id ? (
+                                        <span className="loading loading-spinner loading-xs" />
+                                    ) : (
+                                        "Complete"
+                                    )}
+                                </button>
                             </td>
                         </tr>
                     ))}
@@ -105,6 +136,36 @@ export default function AdminReservationTable({ reservations, onCancel }) {
                                     <span className="loading loading-spinner loading-sm" />
                                 ) : (
                                     "Cancel Reservation"
+                                )}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+
+            <dialog id="complete_reservation_modal" className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Confirm Completion</h3>
+                    <p className="py-4">
+                        Are you sure you want to complete reservation:{" "}
+                        <span className="font-semibold ms-2">
+                            #{completeTarget?.id}
+                        </span>
+                        ?
+                    </p>
+                    <div className="modal-action">
+                        <form method="dialog" className="flex gap-2">
+                            <button className="btn">No</button>
+                            <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={confirmCompletion}
+                                disabled={loadingId === completeTarget?.id}
+                            >
+                                {loadingId === completeTarget?.id ? (
+                                    <span className="loading loading-spinner loading-sm" />
+                                ) : (
+                                    "Complete Reservation"
                                 )}
                             </button>
                         </form>

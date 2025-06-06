@@ -18,6 +18,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import AuthLayout from './pages/AuthLayout.jsx';
 import UnAuthorized from './pages/UnAuthorized.jsx';
+import DashboardPage from './pages/admin/DashboardPage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <>
@@ -41,6 +42,7 @@ createRoot(document.getElementById('root')).render(
 
         <Route element={<ProtectedRoutes requiredRole="admin" />}>
           <Route element={<AdminLayout />}>
+            <Route path="admin/dashboard" element={<DashboardPage />} />
             <Route path="admin/locations" element={<LocationsPage />} />
             <Route path="admin/reservations" element={<AdminReservationsPage />} />
             <Route path="admin/slots" element={<SlotsPage />} />

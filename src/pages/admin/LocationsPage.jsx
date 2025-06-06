@@ -88,7 +88,8 @@ export default function LocationsPage() {
 
   return (
     <div className="flex flex-col bg-base-300 rounded-md p-4">
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-between align-center mb-4">
+        <h2 className="text-2xl font-bold mb-4">Locations</h2>
         <button className="btn btn-primary" onClick={openCreateModal} disabled={loading || modalLoading}>
           Add
         </button>

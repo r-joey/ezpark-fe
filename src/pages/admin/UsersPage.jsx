@@ -43,6 +43,7 @@ export default function UsersPage() {
 
     return (
         <div className="flex flex-col bg-base-300 rounded-md p-4">
+            <h2 className="text-2xl font-bold mb-4">Users</h2>
             <div className="overflow-x-auto">
                 <UserTable
                     users={users}

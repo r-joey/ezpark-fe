@@ -54,6 +54,13 @@ export default function AdminLayout() {
         <label htmlFor="admin-drawer" className="drawer-overlay"></label>
         <ul className="menu p-4 w-64 min-h-full bg-base-200 text-base-content"> 
           <h1 className="menu-title text-2xl font-bold tracking-tight mb-4 ">Admin Panel</h1>
+           <li>
+            <NavLink to="/admin/dashboard"   className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "menu-active" : ""
+            }>
+              Dashboard
+            </NavLink>
+          </li>
           <li>
             <NavLink to="/admin/locations"   className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "menu-active" : ""
