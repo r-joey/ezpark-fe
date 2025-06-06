@@ -157,7 +157,7 @@ export default function AccountPage() {
       <button
         type="button"
         onClick={logout}
-        className="btn btn-primary w-full mt-4"
+        className="btn btn-primary w-full max-w-lg mt-4"
       >
         Logout
       </button>
