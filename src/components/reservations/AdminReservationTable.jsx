@@ -20,7 +20,7 @@ export default function AdminReservationTable({ reservations, onComplete, onCanc
         if (completeTarget) {
             setLoadingId(completeTarget.id);
             try {
-                await onCancel(completeTarget);
+                await onComplete(completeTarget);
                 toast.success(`Reservation #${completeTarget.id} completed.`);
             } catch (err) {
                 toast.error("Failed to complete reservation.");

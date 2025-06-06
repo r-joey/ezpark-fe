@@ -11,7 +11,7 @@ export const cancelReservation = async(id) => {
 }
 
 export const completeReservation = async (id) => { 
-    const response = await api.put(`/${id}/complete`);  
+    const response = await api.put(`/complete/${id}`);  
     return response.data
 }
 

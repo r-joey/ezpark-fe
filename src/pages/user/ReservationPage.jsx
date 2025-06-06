@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllReservations, cancelReservation } from "../../utils/reservation";
+import { getAllReservations, cancelReservation, completeReservation } from "../../utils/reservation";
 import { toast } from 'sonner';
 
 export default function ReservationPage() {
@@ -23,10 +23,25 @@ export default function ReservationPage() {
     fetchReservations();
   }, []);
 
-  const handleCancel = async (reservationId) => {
-    const confirmCancel = window.confirm("Are you sure you want to cancel this reservation?");
-    if (!confirmCancel) return;
+    const handleComplete = async (reservationId) => {
+      try {
+        setCancelingId(reservationId);
+        await completeReservation(reservationId);
+        setReservations((prev) =>
+          prev.map((r) =>
+            r.id === reservationId ? { ...r, status: "completed" } : r
+          )
+        );
+        toast.success("Reservation completed successfully.");
+      } catch (error) {
+        console.error("Cancel failed", error);
+        toast.error("Failed to complete reservation. Please try again.");
+      } finally {
+        setCancelingId(null);
+      }
+  };
 
+  const handleCancel = async (reservationId) => {
     try {
       setCancelingId(reservationId);
       await cancelReservation(reservationId);
@@ -98,7 +113,7 @@ export default function ReservationPage() {
                   {cancelingId === res.id ? "Cancelling..." : "Cancel"}
                 </button>
                 <button
-                  onClick={() => handleCancel(res.id)}
+                  onClick={() => handleComplete(res.id)}
                   disabled={cancelingId === res.id}
                   className="mt-2 w-1/2  btn btn-success"
                   >

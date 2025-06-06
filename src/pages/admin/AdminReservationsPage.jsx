@@ -25,6 +25,7 @@ export default function AdminReservationsPage() {
   const handleComplete = async (reservation) => {
     try {
       const updated = await completeReservation(reservation.id);
+      console.log(updated)
       setReservations((prev) =>
         prev.map((res) =>
           res.id === reservation.id ? { ...res, ...updated.reservation } : res
